@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
     <name>Paytoo_GoPayToo</name>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <stability>stable</stability>
     <license uri="http://opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
     <channel>community</channel>
@@ -11,8 +11,8 @@
 It has been extensivly tested, is used by many GoPayToo merchants and is updated with each Magento community release.</description>
     <notes>First public release</notes>
     <authors><author><name>PayToo Corp.</name><user>paytoo</user><email>rd@paytoo.com</email></author></authors>
-    <date>2013-04-11</date>
-    <time>19:24:14</time>
+    <date>2013-04-15</date>
+    <time>10:21:23</time>
     <contents><target name="magelocal"><dir name="Paytoo"><dir name="GoPayToo"><dir name="Block"><file name="Form.php" hash="ce22217339260448b49d9f9762525f7a"/><file name="Info.php" hash="f8c8d7ec386f335f9d68e7567053a027"/><file name="Redirect.php" hash="2f10a254eee580dce7ab743d69227fb3"/></dir><dir name="Helper"><file name="Data.php" hash="37fcfff77a6821c2d36a12e057b73412"/></dir><dir name="Model"><file name="Checkout.php" hash="57861d52391b5bab5adc3c0fc97f3ae3"/><file name="Observer.php" hash="51b94d4ebf566651f975a9f0dcac6684"/></dir><dir name="controllers"><file name="NotificationController.php" hash="204a0a6d469b288f2b40d077f6a65637"/><file name="RedirectController.php" hash="c6ddb74172f7d0c1fbd154ef3e7b9b4a"/></dir><dir name="etc"><file name="config.xml" hash="13632ee28f052d494afe189686aa2bf0"/><file name="system.xml" hash="ffed7d64f3e2521d9500cda139b0dd95"/></dir></dir></dir></target><target name="mageetc"><dir name="."><file name="Paytoo_GoPayToo.xml" hash=""/></dir></target><target name="magedesign"><dir name="frontend"><dir name="base"><dir name="default"><dir name="template"><dir name="gopaytoo"><file name="form.phtml" hash="7b31b8ad5f1a197eaf19dc5e6e25d1a5"/><file name="info.phtml" hash="ee403495047553eb6efa979b012bab96"/></dir></dir></dir></dir></dir></target></contents>
     <compatible/>
     <dependencies><required><php><min>5.0.0</min><max>6.0.0</max></php></required></dependencies>
