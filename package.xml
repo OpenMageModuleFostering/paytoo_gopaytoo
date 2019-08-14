@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
     <name>Paytoo_GoPayToo</name>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <stability>stable</stability>
     <license uri="http://opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
     <channel>community</channel>
@@ -9,11 +9,14 @@
     <summary>PayToo Payment Gateway - Accept Credit Cards and PayToo wallet payment with your GoPayToo merchant account</summary>
     <description>This OFFICIAL extension from PayToo Corp. utilizes GoPayToo gateway, API and instant notifications to provide you with the ability to do all of your sales management from Magento.&#xD;
 It has been extensivly tested, is used by many GoPayToo merchants and is updated with each Magento community release.</description>
-    <notes>First public release</notes>
+    <notes>* Store ID is now used as subaccount ID&#xD;
+* Customer ID stored in custom field 1&#xD;
+* Website name stored in custom field 2&#xD;
+* Repack to fix an issue with Magento 1.7.0.2 that was creating a folder instead of a config file</notes>
     <authors><author><name>PayToo Corp.</name><user>paytoo</user><email>rd@paytoo.com</email></author></authors>
-    <date>2013-04-15</date>
-    <time>10:21:23</time>
-    <contents><target name="magelocal"><dir name="Paytoo"><dir name="GoPayToo"><dir name="Block"><file name="Form.php" hash="ce22217339260448b49d9f9762525f7a"/><file name="Info.php" hash="f8c8d7ec386f335f9d68e7567053a027"/><file name="Redirect.php" hash="2f10a254eee580dce7ab743d69227fb3"/></dir><dir name="Helper"><file name="Data.php" hash="37fcfff77a6821c2d36a12e057b73412"/></dir><dir name="Model"><file name="Checkout.php" hash="57861d52391b5bab5adc3c0fc97f3ae3"/><file name="Observer.php" hash="51b94d4ebf566651f975a9f0dcac6684"/></dir><dir name="controllers"><file name="NotificationController.php" hash="204a0a6d469b288f2b40d077f6a65637"/><file name="RedirectController.php" hash="c6ddb74172f7d0c1fbd154ef3e7b9b4a"/></dir><dir name="etc"><file name="config.xml" hash="13632ee28f052d494afe189686aa2bf0"/><file name="system.xml" hash="ffed7d64f3e2521d9500cda139b0dd95"/></dir></dir></dir></target><target name="mageetc"><dir name="."><file name="Paytoo_GoPayToo.xml" hash=""/></dir></target><target name="magedesign"><dir name="frontend"><dir name="base"><dir name="default"><dir name="template"><dir name="gopaytoo"><file name="form.phtml" hash="7b31b8ad5f1a197eaf19dc5e6e25d1a5"/><file name="info.phtml" hash="ee403495047553eb6efa979b012bab96"/></dir></dir></dir></dir></dir></target></contents>
+    <date>2014-02-18</date>
+    <time>11:44:02</time>
+    <contents><target name="magelocal"><dir name="Paytoo"><dir name="GoPayToo"><dir name="Block"><file name="Form.php" hash="cc2e3e4aeede9db061b10e3be4955bf4"/><file name="Info.php" hash="a30ba03920e3d7bbadb2c60f4d5e2d68"/><file name="Redirect.php" hash="f3c8f1a21e808114cb2e043c22ba649e"/></dir><dir name="Helper"><file name="Data.php" hash="c7789b8a5bb806b0527ece2b51d7c137"/></dir><dir name="Model"><file name="Checkout.php" hash="491cfee8c2d2f831a0847f6cb977799f"/><file name="Observer.php" hash="5070fecf6eaf8e2e1c585155f8805dea"/></dir><dir name="controllers"><file name="NotificationController.php" hash="358a6c5751e863df07ab1228ef296ea0"/><file name="RedirectController.php" hash="f5747d81c0a097130c6921fb93627caa"/></dir><dir name="etc"><file name="config.xml" hash="5ae2d14c85d6a42c43d86db2b3cf904b"/><file name="system.xml" hash="87c1e061c42a81b480ef1dd48efdc0ff"/></dir></dir></dir></target><target name="magedesign"><dir name="frontend"><dir name="base"><dir name="default"><dir name="template"><dir name="gopaytoo"><file name="form.phtml" hash="b029b235805a63eeb617a0c888ee93b8"/><file name="info.phtml" hash="b0327f478a5f76fb16c5e7f9418f4de1"/></dir></dir></dir></dir></dir></target><target name="mageetc"><dir name="modules"><file name="Paytoo_GoPayToo.xml" hash="90ac43ac969478529565cc606a766f5b"/></dir></target></contents>
     <compatible/>
     <dependencies><required><php><min>5.0.0</min><max>6.0.0</max></php></required></dependencies>
 </package>

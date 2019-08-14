@@ -14,7 +14,7 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   PayToo Corp.
- * @package    GoPayToo (gopaytoo.com)
+ * @package    GoPayToo (go.paytoo.com)
  * @copyright  Copyright (c) 2013 PayToo Corp.
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -23,8 +23,9 @@ class Paytoo_GoPayToo_NotificationController extends Mage_Core_Controller_Front_
 
     public function indexAction() {
         $request = $_POST['MerchantApiResponse']['PaytooRequest'];
+	$account = $_POST['MerchantApiResponse']['PaytooAccount'];
 	$hash = $_POST['MerchantApiResponse']['hash'];
-        
+
 	/*
 IPN: array (
   'request_id' => '10187',
@@ -39,7 +40,7 @@ IPN: array (
   'tr_requested_currency' => 'USD',
   'tr_change_rate' => '',
   'hash' => '70e0e8afc5cf6e5db0fb0af518774577',
-  'MerchantApiResponse' => 
+  'MerchantApiResponse' =>
   array (
     'status' => 'OK',
     'request_id' => '10187',
@@ -51,7 +52,7 @@ IPN: array (
     'info' => NULL,
     'phone_number' => NULL,
     'w_number' => NULL,
-    'PaytooRequest' => 
+    'PaytooRequest' =>
     array (
       'request_id' => '10187',
       'tr_id' => '21310',
@@ -90,7 +91,7 @@ IPN: array (
       'lastname' => NULL,
       'email' => NULL,
     ),
-    'PaytooTransaction' => 
+    'PaytooTransaction' =>
     array (
       'tr_id' => '21310',
       'tr_type' => 'creditcard2merchant',
@@ -123,7 +124,7 @@ IPN: array (
       'tr_status_msg' => NULL,
       'pay_infos' => '13962045',
     ),
-    'PaytooAccount' => 
+    'PaytooAccount' =>
     array (
       'user_id' => '10343',
       'wallet' => '02416039',
@@ -175,17 +176,17 @@ IPN: array (
   ),
 )
 	*/
-	
+
 	if (empty($request) || empty($request['request_id']) || empty($request['ref_id']) || empty($request['amount']) || empty($request['status']) || empty($hash)) {
 	    die("Missing parameters");
 	    return ;
 	}
-	
+
         $order = Mage::getModel('sales/order');
         $order->loadByIncrementId($request['ref_id']);
         $invoice_on_fraud = Mage::getStoreConfig('payment/gopaytoo/invoice_on_fraud');
         $invoice_on_order = Mage::getStoreConfig('payment/gopaytoo/invoice_on_order');
-       	
+
         $hashKey = Mage::getStoreConfig('payment/gopaytoo/secret_word');
         $myhash = md5($request['request_id'].$request['amount'].$request['currency'].$request['status'].$hashKey);
 
@@ -194,7 +195,12 @@ IPN: array (
             $order->save();
 	    return ;
 	}
-	
+
+	// Set external customer ID and request ID for reference
+	$order->setData('ext_order_id', $request['request_id'] );
+	$order->setData('ext_customer_id', $account['user_id']);
+	$order->save();
+
 	if ($request['status']=='cancelled' || $request['status']=='rejected' || $request['status']=='error' || $request['status']=='expired') {
 	    $order->setState(Mage_Sales_Model_Order::STATE_CANCELED, true)->addStatusHistoryComment('Payment rejected or cancelled.')->save();
 	    if (!empty($request['status_infos']))
@@ -202,7 +208,7 @@ IPN: array (
 	    $order->save();
 	    return ;
 	}
-	
+
 	if ($request['status']=='accepted') {
 	    // Pending for signature
 	    if($order->canHold()) {
@@ -213,7 +219,7 @@ IPN: array (
 	    }
 	    return ;
 	}
-	
+
 	if ($request['status']=='chargeback' || $request['status']=='unpaid') {
 	    // Chargeback or Unpaid notification
 	    // TODO: do something automatically
@@ -223,7 +229,7 @@ IPN: array (
 	    $order->save();
 	    return ;
 	}
-	
+
 	if ($request['status']=='refunded') {
 	    // Refund notification
 	    // TODO: do something automatically
@@ -232,7 +238,7 @@ IPN: array (
 		$order->addStatusHistoryComment($request['status_infos']);
 	    $order->save();
 	}
-	
+
 	if ($request['status']!='completed') {
 	    $order->addStatusHistoryComment("Invalid IPN status: ".$request['status']." - not treated");
 	    if (!empty($request['status_infos']))
@@ -243,8 +249,8 @@ IPN: array (
 
 	// Below this it is only 'completed' payment notification
 	$order->setData('ext_order_id', $request['request_id']);
-	$order->save(); 
-	
+	$order->save();
+
 	$expected_amount = $order->getBaseGrandTotal();
 	if ($expected_amount != $request['amount']) {
 	    //TODO: check currency
@@ -252,7 +258,7 @@ IPN: array (
             $order->save();
 	    return ;
 	}
-	
+
 	$payment = $order->getPayment();
 
         $payment->setTransactionId($request['request_id'])
@@ -263,14 +269,14 @@ IPN: array (
             ->registerCaptureNotification($request['amount']);
 
         $order->save();
-	
+
 	$order->sendNewOrderEmail();
-	
+
 	$state = $order->getState();
 	if ($state!=Mage_Sales_Model_Order::STATE_PROCESSING) {
             $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true)->save();
 	}
-	
+
 	/*
 	if ($invoice_on_order == '1') {
 	    try {
@@ -293,7 +299,7 @@ IPN: array (
 	    }
 	}
 	*/
-	
+
     }
 }
 

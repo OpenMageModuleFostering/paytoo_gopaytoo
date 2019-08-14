@@ -14,7 +14,7 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   PayToo Corp.
- * @package    GoPayToo (gopaytoo.com)
+ * @package    GoPayToo (go.paytoo.com)
  * @copyright  Copyright (c) 2013 PayToo Corp.
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -49,7 +49,7 @@ class Paytoo_GoPayToo_Model_Checkout extends Mage_Payment_Model_Method_Abstract 
 
 //get purchase routine URL
     public function getUrl() {
-        return ($this->getDemo()) ? 'https://merchant.paytoo.info/gateway' : 'https://www.gopaytoo.com/gateway';
+        return ($this->getDemo()) ? 'https://go.paytoo.info/gateway' : 'https://go.paytoo.com/gateway';
     }
 
 //get checkout language
@@ -229,20 +229,30 @@ class Paytoo_GoPayToo_Model_Checkout extends Mage_Payment_Model_Method_Abstract 
 	$gopaytooFields['currency'] = $order->getOrderCurrencyCode(); // USD
 	$gopaytooFields['order_ref'] = $order_id;
         $gopaytooFields['order_description'] = Mage::helper('gopaytoo')->__('Order #%s on %s', $order_id, Mage::app()->getWebsite()->getName());
-	
-	$gopaytooFields['sub_account_id'] = '';
-	$gopaytooFields['custom_field1'] = '';
-	$gopaytooFields['custom_field2'] = '';
+
+	$gopaytooFields['sub_account_id'] = Mage::app()->getStore()->getId();
+	$is_guest = $order->getData('customer_is_guest');
+	$customer_id = (!empty($is_guest) && $is_guest=='1') ? 0 : $order->getData('customer_id');
+	$gopaytooFields['custom_field1'] = $customer_id;
+	$gopaytooFields['custom_field2'] = Mage::app()->getWebsite()->getName();
 	$gopaytooFields['custom_field3'] = '';
 	$gopaytooFields['custom_field4'] = '';
 	$gopaytooFields['custom_field5'] = '';
-	
+
+	/*
+	echo "Website ID: " . Mage::app()->getWebsite()->getId() . "<br/>";
+	echo "Website Name: " . Mage::app()->getWebsite()->getName() . "<br/>";
+	echo "Store ID: " . Mage::app()->getStore()->getId() . "<br/>";
+	echo "Store Name: ".Mage::app()->getStore()->getName(). "<br/>";
+	echo "Store code: ". Mage::app()->getStore()->getCode()."<br/>";
+	*/
+
 	$gopaytooFields['lang'] = $this->getLanguage();
 	$gopaytooFields['completed_url'] = Mage::getUrl('gopaytoo/redirect/success', array('_secure' => true));
 	$gopaytooFields['cancelled_url'] = Mage::getUrl('gopaytoo/redirect/cancel', array('_secure' => true));
 	$gopaytooFields['rejected_url'] = Mage::getUrl('gopaytoo/redirect/reject', array('_secure' => true));;
 	$gopaytooFields['esign_url'] = Mage::getUrl('gopaytoo/redirect/esign', array('_secure' => true));;
-	
+
 	$gopaytooFields['user']['email'] = $order->getData('customer_email');
 	$gopaytooFields['user']['firstname'] = $b->getFirstname();
 	$gopaytooFields['user']['lastname'] = $b->getLastname();
@@ -252,6 +262,7 @@ class Paytoo_GoPayToo_Model_Checkout extends Mage_Payment_Model_Method_Abstract 
 	$gopaytooFields['user']['country'] = $b->getCountry();
 	$gopaytooFields['user']['state'] = ($gopaytooFields['user']['country']=='US') ? $b->getRegion() : '';
 	$gopaytooFields['user']['cellphone'] = $b->getTelephone();
+	$gopaytooFields['user']['birthday'] = $order->getData('customer_dob');
 
 	if ($a) {
 	    $gopaytooFields['shipping']['firstname'] = $a->getFirstname();
@@ -266,13 +277,13 @@ class Paytoo_GoPayToo_Model_Checkout extends Mage_Payment_Model_Method_Abstract 
 	    $gopaytooFields['shipping']['weight'] = $weight;
 	    $gopaytooFields['shipping']['method'] = $ship_method;
         }
-	
+
 	$gopaytooFields['recurring']['enabled'] = 'no';
 	$gopaytooFields['recurring']['amount'] = '';
 	$gopaytooFields['recurring']['cycles'] = '';
 	$gopaytooFields['recurring']['periodicity'] = '';
 	$gopaytooFields['recurring']['start_date'] = '';
-	
+
 	// Calculate/Set the hash keys
 	$hashKey = Mage::getStoreConfig('payment/gopaytoo/secret_word');
 	$hash = md5($gopaytooFields['merchant_id'].$gopaytooFields['amount'].$gopaytooFields['currency'].$gopaytooFields['order_ref'].$hashKey);

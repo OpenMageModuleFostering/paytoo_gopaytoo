@@ -14,7 +14,7 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   PayToo Corp.
- * @package    GoPayToo (gopaytoo.com)
+ * @package    GoPayToo (go.paytoo.com)
  * @copyright  Copyright (c) 2013 PayToo Corp.
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -27,7 +27,7 @@ class Paytoo_GoPayToo_Model_Observer {
 
         if ($refund == '1') {
             $sandbox = Mage::getStoreConfig('payment/gopaytoo/demo');
-            $url = ($sandbox=='1') ? 'https://www.paytoo.info/api/merchant?wsdl' : 'https://www.gopaytoo.com/api/merchant?wsdl';
+            $url = ($sandbox=='1') ? 'https://www.paytoo.info/api/merchant?wsdl' : 'https://go.paytoo.com/api/merchant?wsdl';
         
             $creditmemo = $payment->getCreditmemo()->getOrder()->getData();
             $creditmemo_amount = $payment->getCreditmemo()->getData();
