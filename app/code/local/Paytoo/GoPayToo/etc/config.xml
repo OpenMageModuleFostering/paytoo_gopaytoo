@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   PayToo Corp.
+ * @package    GoPayToo (gopaytoo.com)
+ * @copyright  Copyright (c) 2013 PayToo Corp.
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+
+<config>
+    <modules>
+        <Paytoo_GoPayToo>
+            <version>1.0.0</version>
+        </Paytoo_GoPayToo>
+    </modules>
+    <global>
+    	<models>
+    		<gopaytoo>
+	    		<class>Paytoo_GoPayToo_Model</class>
+	    	</gopaytoo>
+    	</models>
+    	<helpers>
+    		<gopaytoo>
+    			<class>Paytoo_GoPayToo_Helper</class>
+    		</gopaytoo>
+    	</helpers>
+    	<blocks>
+            <gopaytoo>
+            	<class>Paytoo_GoPayToo_Block</class>
+            </gopaytoo>
+        </blocks>
+        <resources>
+            <gopaytoo_setup>
+                <setup>
+                    <module>Paytoo_GoPayToo</module>
+                </setup>
+                <connection>
+                    <use>directory_setup</use>
+                </connection>
+            </gopaytoo_setup>
+            <gopaytoo_write>
+                <connection>
+                    <use>local_write</use>
+                </connection>
+            </gopaytoo_write>
+            <gopaytoo_read>
+                <connection>
+                    <use>local_read</use>
+                </connection>
+            </gopaytoo_read>
+        </resources>
+      <events>
+        <sales_order_creditmemo_refund>
+          <observers>
+            <issue_creditmemo_refund>
+              <type>singleton</type>
+              <class>Paytoo_GoPayToo_Model_Observer</class>
+              <method>issue_creditmemo_refund</method>
+            </issue_creditmemo_refund>
+          </observers>
+        </sales_order_creditmemo_refund>
+
+      </events>
+    </global>
+    <frontend>
+        <routers>
+            <gopaytoo>
+                <use>standard</use>
+                <args>
+                    <module>Paytoo_GoPayToo</module>
+                    <frontName>gopaytoo</frontName>
+                </args>
+            </gopaytoo>
+        </routers>
+        <secure_url>
+            <gopaytoo_redirect>/gopaytoo/redirect/</gopaytoo_redirect>
+        </secure_url>
+    </frontend>
+    <default>
+        <payment>
+            <gopaytoo>
+                <active>1</active>
+                <submit_url>1</submit_url>
+                <model>gopaytoo/checkout</model>
+                <title>PayToo (credit/debit cards and PayToo wallet)</title>
+                <sid>Enter your GoPayToo Merchant ID</sid>
+                <secret_word>Enter your secret hash key</secret_word>
+		<submit_url>1</submit_url>
+        	<demo>0</demo>
+                <sort_order>1</sort_order>
+            </gopaytoo>
+        </payment>
+    </default>
+</config>
