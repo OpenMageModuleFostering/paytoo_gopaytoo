@@ -1,16 +1,19 @@
 {
-    "name": "OpenMageModuleFostering/Paytoo_GoPayToo",
+    "name": "OpenMageModuleFostering\/Paytoo_GoPayToo",
     "type": "magento-module",
     "license": "OSL-v3.0",
     "homepage": "",
     "description": "PayToo Payment Gateway - Accept Credit Cards and PayToo wallet payment with your GoPayToo merchant account",
     "authors": [
-    {
-        "name": "PayToo Corp.",
-        "email": "rd@paytoo.com"
-    }
-],
+        {
+            "name": "PayToo Corp.",
+            "email": "rd@paytoo.com"
+        }
+    ],
     "suggest": {
-        "magento-hackathon/magento-composer-installer": "*"
-    }
+        "magento-hackathon\/magento-composer-installer": "*"
+    },
+    "keywords": [
+        "openmage-module"
+    ]
 }
